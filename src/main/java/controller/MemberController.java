@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.MemberDAO;
+
 /**
  * Servlet implementation class MemberController
  */
@@ -25,8 +27,12 @@ public class MemberController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		
 		String[] uriArr = request.getRequestURI().split("/");
 		String opName = uriArr[3];
+		
+		MemberDAO dao = new MemberDAO();
 		
 		if(opName.equals("list")) {
 			String[] data = new String[5];

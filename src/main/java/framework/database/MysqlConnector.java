@@ -1,4 +1,4 @@
-package database;
+package framework.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class SimpleMysql {
+public class MysqlConnector {
 	private static Connection conn;
 	private static String schema;
 	private static String url;

@@ -12,6 +12,32 @@ public class MemberDTO {
 	private String reg_date;
 	private int level;
 	
+	public MemberDTO(String m_id, String name, String email, int age, String gender, String reg_date,
+			int level) {
+		super();
+		this.num = num;
+		this.m_id = m_id;
+		this.name = name;
+		this.email = email;
+		this.age = age;
+		this.gender = gender;
+		this.reg_date = reg_date;
+		this.level = level;
+	}
+	
+	public MemberDTO(int num, String m_id, String name, String email, int age, String gender, String reg_date,
+			int level) {
+		super();
+		this.num = num;
+		this.m_id = m_id;
+		this.name = name;
+		this.email = email;
+		this.age = age;
+		this.gender = gender;
+		this.reg_date = reg_date;
+		this.level = level;
+	}
+	
 	public int getNum() {
 		return num;
 	}

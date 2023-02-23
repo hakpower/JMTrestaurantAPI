@@ -1,57 +1,36 @@
 package controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import framework.handler.Controller;
 import model.MemberDAO;
 
 /**
  * Servlet implementation class MemberController
  */
-@WebServlet("/member/*")
-public class MemberController extends HttpServlet {
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public MemberController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+public class MemberController implements Controller {
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setHeader("Access-Control-Allow-Origin", "*");
-		
-		String[] uriArr = request.getRequestURI().split("/");
-		String opName = uriArr[3];
-		
+	@Override
+	public String execute(HttpServletRequest request) {
+
 		MemberDAO dao = new MemberDAO();
-		
-		if(opName.equals("list")) {
-			String[] data = new String[5];
-			data[0] = "\"apple\"";
-			data[1] = "\"banana\"";
-			data[2] = "\"tomato\"";
-			data[3] = "\"melon\"";
-			data[4] = "\"orange\"";
-			
-			request.setAttribute("data", data);
+		String data=null;
+		try {
+			data = dao.selectAll().toString();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		request.getRequestDispatcher("/views/"+opName+".jsp").forward(request, response);
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setAttribute("data", data);
 		
+		return "member/list";
 	}
 
 }

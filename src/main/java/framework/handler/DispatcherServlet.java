@@ -80,10 +80,14 @@ public class DispatcherServlet extends HttpServlet {
 		String url = request.getRequestURI().substring((request.getContextPath()+"/api").length());
 		Controller controller = handler.get(url);
 		
-		String	path = controller.execute(request);
-		String jsonPath = "/json/"+path+".jsp";
+		if(controller!=null) {
+			String	path = controller.execute(request, url);
+			String jsonPath = "/json/"+path+".jsp";
 
-		request.getRequestDispatcher(jsonPath).forward(request, response);
+			request.getRequestDispatcher(jsonPath).forward(request, response);
+		}else {
+			request.getRequestDispatcher("/json/controllerNotFound.jsp").forward(request, response);
+		}
 	}
 
 }

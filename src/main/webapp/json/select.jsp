@@ -3,8 +3,10 @@
     <%
     String status = (String)request.getAttribute("status");
     String data = (String)request.getAttribute("data");
+    Integer totalDataCount = (Integer)request.getAttribute("totalDataCount");
     %>
 {
 	"status":"<%=status%>",
-	"data":<%=data %>
+	"data":<%=data %>,
+	"totalDataCount":<%=totalDataCount%>
 }

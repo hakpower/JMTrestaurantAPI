@@ -1,6 +1,4 @@
-package model;
-
-import java.sql.Connection;
+package model.member;
 
 public class MemberDTO {
 	private int num;

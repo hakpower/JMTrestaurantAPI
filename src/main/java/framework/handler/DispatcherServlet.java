@@ -86,7 +86,7 @@ public class DispatcherServlet extends HttpServlet {
 
 			request.getRequestDispatcher(jsonPath).forward(request, response);
 		}else {
-			request.getRequestDispatcher("/json/controllerNotFound.jsp").forward(request, response);
+			request.getRequestDispatcher("/json/errors/controllerNotFound.jsp").forward(request, response);
 		}
 	}
 

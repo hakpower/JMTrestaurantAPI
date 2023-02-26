@@ -1,57 +1,102 @@
 package controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import framework.handler.Controller;
 import model.MemberDAO;
+import model.MemberDTO;
 
 /**
  * Servlet implementation class MemberController
  */
-@WebServlet("/member/*")
-public class MemberController extends HttpServlet {
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public MemberController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+public class MemberController implements Controller {
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setHeader("Access-Control-Allow-Origin", "*");
+	@Override
+	public String execute(HttpServletRequest request, String url) {
+		String status = "fail";
+		String path="select";
 		
-		String[] uriArr = request.getRequestURI().split("/");
-		String opName = uriArr[3];
-		
-		MemberDAO dao = new MemberDAO();
-		
-		if(opName.equals("list")) {
-			String[] data = new String[5];
-			data[0] = "\"apple\"";
-			data[1] = "\"banana\"";
-			data[2] = "\"tomato\"";
-			data[3] = "\"melon\"";
-			data[4] = "\"orange\"";
+		if(url.equals("/member/list")) {
+			MemberDAO dao = new MemberDAO();
+			String data=null;
+			try {
+				data = dao.selectAll().toString();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			request.setAttribute("data", data);
+			status="success";
+			path="select";
+		}else if(url.equals("/member/detail")) {
+			String m_id=request.getParameter("m_id");
+			
+			MemberDAO dao = new MemberDAO();
+			String data=null;
+			try {
+				MemberDTO member = dao.selectOne(m_id);
+				data = member!=null?member.toString():null;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			request.setAttribute("data", data);
+			status="success";
+			path="select";
+		}else if(url.equals("/member/add")) {
+			String m_id=request.getParameter("m_id");
+			String password=request.getParameter("password");
+			String name=request.getParameter("name");
+			String email=request.getParameter("email");
+			int age=Integer.parseInt(request.getParameter("age"));
+			String gender=request.getParameter("gender");
+			
+			MemberDAO dao = new MemberDAO();
+			int resultCode = 0;
+			try {
+				resultCode = dao.insertOne(m_id,password,name,email,age,gender);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			request.setAttribute("resultCode", resultCode);
+			status="success";
+			path="update";
+		}else if(url.equals("/member/edit")) {
+			String m_id=request.getParameter("m_id");
+			String password=request.getParameter("password");
+			String name=request.getParameter("name");
+			String email=request.getParameter("email");
+			int age=Integer.parseInt(request.getParameter("age"));
+			String gender=request.getParameter("gender");
+			
+			MemberDAO dao = new MemberDAO();
+			int resultCode = 0;
+			try {
+				resultCode = dao.updateOne(m_id,password,name,email,age,gender);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			request.setAttribute("resultCode", resultCode);
+			status="success";
+			path="update";
 		}
-		request.getRequestDispatcher("/views/"+opName+".jsp").forward(request, response);
-	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setAttribute("status", status);
 		
+		return path;
 	}
 
 }

@@ -36,7 +36,7 @@ public class RestaurantDAO {
 			 if(searchColumn.equals("name")) sqlWhere+="and rest.name like ? ";
 			 if(searchColumn.equals("addr")) sqlWhere+="and rest.addr like ? ";
 			 
-			 objs.add(searchValue);
+			 objs.add("%"+searchValue+"%");
 			 objs.add(startPage);
 			 objs.add(countDataInPage);
 		}else {	 
@@ -60,7 +60,7 @@ public class RestaurantDAO {
 			 if(searchColumn.equals("name")) sqlWhere+="and rest.name like ? ";
 			 if(searchColumn.equals("addr")) sqlWhere+="and rest.addr like ? ";
 			 	
-			 objs.add(searchValue);
+			 objs.add("%"+searchValue+"%");
 		}
 		
 		sql="select count(*) as count from restaurant rest "+sqlWhere;

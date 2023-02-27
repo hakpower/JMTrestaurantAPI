@@ -75,8 +75,6 @@ public class DispatcherServlet extends HttpServlet {
 	 * @throws ServletException 
 	 */
 	protected void doDo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setHeader("Access-Control-Allow-Origin", "*");
-
 		String url = request.getRequestURI().substring((request.getContextPath()+"/api").length());
 		Controller controller = handler.get(url);
 		

@@ -56,6 +56,9 @@ public class DispatcherFilter implements Filter {
 	public void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
 		// TODO Auto-generated method stub
 		// place your code here
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		response.setHeader("Access-Control-Allow-Headers", "*");
+		
 		boolean filterCheck=true;
 
 		log.debug("before HttpServletRequest doFilter");

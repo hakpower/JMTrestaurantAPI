@@ -32,7 +32,7 @@ public class MemberDAO {
 		String sql="";
 		String sqlWhere=" where 1=1 ";
 		if(!searchColumn.equals("") && !searchValue.equals("")) {
-			objs.add(searchValue);
+			objs.add("%"+searchValue+"%");
 			objs.add(startPage);
 			objs.add(countDataInPage);
 			
@@ -60,7 +60,7 @@ public class MemberDAO {
 			 if(searchColumn.equals("name")) sqlWhere+="and mem.name like ? ";
 			 if(searchColumn.equals("gender")) sqlWhere+="and mem.gender like ? ";
 			 	
-			 objs.add(searchValue);
+			 objs.add("%"+searchValue+"%");
 		}
 		
 		sql="select count(*) as count from member mem "+sqlWhere;

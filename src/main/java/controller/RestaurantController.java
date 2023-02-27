@@ -4,11 +4,14 @@ import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
+
 import framework.handler.Controller;
 import model.restaurant.RestaurantDAO;
 import model.restaurant.RestaurantDTO;
 
 public class RestaurantController implements Controller {
+	Logger log = Logger.getLogger(this.getClass().getCanonicalName());
 
 	@Override
 	public String execute(HttpServletRequest request, String url) {
@@ -22,11 +25,15 @@ public class RestaurantController implements Controller {
 			String searchColumn = request.getParameter("searchColumn")!=null?request.getParameter("searchColumn"):"";
 			String searchValue = request.getParameter("searchValue")!=null?request.getParameter("searchValue"):"";
 			
+			log.debug("searchColumn : "+searchColumn);
+			log.debug("searchValue : "+searchValue);
+			
 			RestaurantDAO dao = new RestaurantDAO();
 			String data=null;
 			int totalDataCount=0;
 			try {
 				data = dao.selectAll(currentPageNum, countDataInPage, countInPageGroup, searchColumn, searchValue).toString();
+				log.debug("data : "+data);
 				totalDataCount = dao.selectAllCount(searchColumn, searchValue);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block

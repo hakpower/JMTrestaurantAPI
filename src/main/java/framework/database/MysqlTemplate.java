@@ -20,15 +20,18 @@ public abstract class MysqlTemplate {
 	 * @return result : 정수 형태의 결과값
 	 * @throws SQLException
 	 */
-	public int updateQuery(String sql, Object ... objs) throws SQLException {
+	public int updateQuery(String sql, List<Object> ... objs) throws SQLException {
 		int result=0;
 		
 		try {
+			if(conn.isClosed() || conn==null) conn=MysqlConnector.getConn();
 			pstmt = conn.prepareStatement(sql);
 			
-			int idx=1;
-			for(Object obj:objs) {
-				pstmt.setObject(idx++, obj);
+			int idx=0;
+			List<Object> bindValues = objs[0];
+			for(int i=0;i<bindValues.size();i++) {
+				idx = (i+1);
+				pstmt.setObject(idx, bindValues.get(i));
 			}
 			
 			result = pstmt.executeUpdate();
@@ -47,15 +50,18 @@ public abstract class MysqlTemplate {
 	 * @return list : ArrayList를 반환
 	 * @throws SQLException
 	 */
-	public List selectQuery(String sql, Object ... objs) throws SQLException{
+	public List selectQuery(String sql, List<Object> ... objs) throws SQLException{
 		List list = new ArrayList<>();
 		
 		try {
+			if(conn.isClosed() || conn==null) conn=MysqlConnector.getConn();
 			pstmt = conn.prepareStatement(sql);
 			
-			int idx=1;
-			for(Object obj:objs) {
-				pstmt.setObject(idx++, obj);
+			int idx=0;
+			List<Object> bindValues = objs[0];
+			for(int i=0;i<bindValues.size();i++) {
+				idx = (i+1);
+				pstmt.setObject(idx, bindValues.get(i));
 			}
 			
 			rs = pstmt.executeQuery();
@@ -68,6 +74,40 @@ public abstract class MysqlTemplate {
 		}
 		
 		return list;
+	}
+	
+	/**
+	 * 하나의 결과를 반환받고 싶은 select 쿼리를 템플릿화 시켜서 실행
+	 * 
+	 * @param sql : 사용하는 sql
+	 * @param objs : PreparedStatement 객체에 바인딩하는 객체들
+	 * @return object : Object를 반환
+	 * @throws SQLException
+	 */
+	public Object selectQueryOne(String sql, List<Object> ... objs) throws SQLException{
+		Object object = new Object();
+		
+		try {
+			if(conn.isClosed() || conn==null) conn=MysqlConnector.getConn();
+			pstmt = conn.prepareStatement(sql);
+			
+			int idx=0;
+			List<Object> bindValues = objs[0];
+			for(int i=0;i<bindValues.size();i++) {
+				idx = (i+1);
+				pstmt.setObject(idx, bindValues.get(i));
+			}
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				object = rs.getObject(1);
+			}
+			
+		}finally {
+			close();
+		}
+		
+		return object;
 	}
 	
 	/**

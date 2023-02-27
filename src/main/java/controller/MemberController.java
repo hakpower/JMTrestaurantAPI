@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import framework.handler.Controller;
-import model.MemberDAO;
-import model.MemberDTO;
+import model.member.MemberDAO;
+import model.member.MemberDTO;
 
 /**
  * Servlet implementation class MemberController
@@ -24,16 +24,25 @@ public class MemberController implements Controller {
 		String path="select";
 		
 		if(url.equals("/member/list")) {
+			int currentPageNum = request.getParameter("currentPageNum")!=null?(Integer.parseInt(request.getParameter("currentPageNum"))-1):1;
+			int countDataInPage = request.getParameter("countDataInPage")!=null?Integer.parseInt(request.getParameter("countDataInPage")):10;
+			int countInPageGroup = request.getParameter("countInPageGroup")!=null?Integer.parseInt(request.getParameter("countInPageGroup")):5;
+			String searchColumn = request.getParameter("searchColumn")!=null?request.getParameter("searchColumn"):"";
+			String searchValue = request.getParameter("searchValue")!=null?request.getParameter("searchValue"):"";
+			
 			MemberDAO dao = new MemberDAO();
 			String data=null;
+			int totalDataCount=0;
 			try {
-				data = dao.selectAll().toString();
+				data = dao.selectAll(currentPageNum, countDataInPage, countInPageGroup, searchColumn, searchValue).toString();
+				totalDataCount = dao.selectAllCount(searchColumn, searchValue);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
 			request.setAttribute("data", data);
+			request.setAttribute("totalDataCount", totalDataCount);
 			status="success";
 			path="select";
 		}else if(url.equals("/member/detail")) {

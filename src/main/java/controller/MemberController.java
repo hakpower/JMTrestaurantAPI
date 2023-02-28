@@ -2,6 +2,8 @@ package controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Base64;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,7 +25,32 @@ public class MemberController implements Controller {
 		String status = "fail";
 		String path="select";
 		
-		if(url.equals("/member/list")) {
+		if(url.equals("/member/login")) {
+			String m_id=request.getParameter("m_id");
+			String password=request.getParameter("password");
+			
+			MemberDAO dao = new MemberDAO();
+			String data=null;
+			try {
+				MemberDTO member = dao.selectOne(m_id, password);
+				
+				if(member!=null) {
+					Date date = new Date();
+					String token_data=member.getM_id()+","+String.valueOf(member.hashCode())+","+date.toGMTString();
+					String auth_token=Base64.getEncoder().encodeToString(token_data.getBytes());
+					data="\""+auth_token+"\"";
+				}else {
+					data=null;
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			request.setAttribute("data", data);
+			status="success";
+			path="select";
+		}else if(url.equals("/member/list")) {
 			int currentPageNum = request.getParameter("currentPageNum")!=null?(Integer.parseInt(request.getParameter("currentPageNum"))-1):1;
 			int countDataInPage = request.getParameter("countDataInPage")!=null?Integer.parseInt(request.getParameter("countDataInPage")):10;
 			int countInPageGroup = request.getParameter("countInPageGroup")!=null?Integer.parseInt(request.getParameter("countInPageGroup")):5;

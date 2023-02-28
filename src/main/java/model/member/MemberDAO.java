@@ -13,7 +13,7 @@ public class MemberDAO {
 		mysqlTemplate = new MysqlTemplate() {
 			
 			@Override
-			public Object getModel(ResultSet rs) throws SQLException {
+			public Object getModel(ResultSet rs) throws SQLException {		
 				int num = rs.getInt("num")!=0?rs.getInt("num"):0;
 				
 				return new MemberDTO(num, rs.getString("m_id"), rs.getString("name"), 
@@ -75,7 +75,24 @@ public class MemberDAO {
 		
 		objs.add(m_id);
 		
-		String sql="select * from member where m_id=?";
+		String sql="select *, 1=1 as num from member where m_id=?";
+		list = mysqlTemplate.selectQuery(sql, objs);
+		
+		if(list.size()>0) {
+			return list.get(0);
+		}else {
+			return null;
+		}
+	}
+	
+	public MemberDTO selectOne(String m_id, String password) throws SQLException{
+		List<MemberDTO> list = new ArrayList<>();
+		List<Object> objs = new ArrayList<>();
+		
+		objs.add(m_id);
+		objs.add(password);
+		
+		String sql="select *, 1=1 as num from member where m_id=? and password=md5(?)";
 		list = mysqlTemplate.selectQuery(sql, objs);
 		
 		if(list.size()>0) {

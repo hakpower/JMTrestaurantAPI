@@ -89,4 +89,64 @@ public class MemberDTO {
 		return "{\"num\":" + num + ", \"m_id\":\"" + m_id + "\", \"name\":\"" + name + "\", \"email\":\"" + email + "\", \"age\":" + age
 				+ ", \"gender\":\"" + gender + "\", \"level\":\""+level+"\", \"reg_date\":\"" + reg_date + "\"}";
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + age;
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + ((gender == null) ? 0 : gender.hashCode());
+		result = prime * result + level;
+		result = prime * result + ((m_id == null) ? 0 : m_id.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + num;
+		result = prime * result + ((reg_date == null) ? 0 : reg_date.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		MemberDTO other = (MemberDTO) obj;
+		if (age != other.age)
+			return false;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
+			return false;
+		if (gender == null) {
+			if (other.gender != null)
+				return false;
+		} else if (!gender.equals(other.gender))
+			return false;
+		if (level != other.level)
+			return false;
+		if (m_id == null) {
+			if (other.m_id != null)
+				return false;
+		} else if (!m_id.equals(other.m_id))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (num != other.num)
+			return false;
+		if (reg_date == null) {
+			if (other.reg_date != null)
+				return false;
+		} else if (!reg_date.equals(other.reg_date))
+			return false;
+		return true;
+	}
+	
+	
 }

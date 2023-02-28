@@ -13,17 +13,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 /**
  * Servlet implementation class DispatcherServlet
  */
 @WebServlet("/api/*")
 public class DispatcherServlet extends HttpServlet {
 	Map<String, Controller> handler;
+	Logger log = Logger.getLogger(this.getClass().getCanonicalName());
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
-		System.out.println("DispatcherServlet init");
-		System.out.println(config);
+		log.debug("DispatcherServlet init");
 		
 		URL res = config.getServletContext().getClassLoader().getResource("url.properties");
 		Properties prop = new Properties();

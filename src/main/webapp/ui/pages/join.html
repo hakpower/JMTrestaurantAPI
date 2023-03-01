@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="../css/common.css" />
-    <link rel="stylesheet" href="../css/login.css" />
+    <link rel="stylesheet" href="../css/join.css" />
     <script src="../js/common/jquery-1.12.4.min.js"></script>
     <script src="../js/common/common.js"></script>
-    <script src="../js/login.js"></script>
+    <script src="../js/join.js"></script>
   </head>
   <body>
     <div id="header">
@@ -32,7 +32,7 @@
     </div>
     <div id="contents">
       <div id="main">
-        <div class="loginContainer">
+        <div class="joinContainer">
           <div>
             <input type="text" id="m_id" placeholder="아이디를 입력하세요." />
           </div>
@@ -44,10 +44,20 @@
             />
           </div>
           <div>
-            <button type="button" onclick="login()">로그인</button>
-            <button type="button" onclick="location.replace('./join.html')">
-              회원가입
-            </button>
+            <input
+              type="password"
+              id="password_re"
+              placeholder="확인 차 비밀번호를 다시 입력하세요."
+            />
+          </div>
+          <div>
+            <input type="text" id="name" placeholder="이름을 입력하세요." />
+          </div>
+          <div>
+            <input type="text" id="email" placeholder="이메일을 입력하세요." />
+          </div>
+          <div>
+            <button type="button" onclick="join()">회원가입 완료</button>
           </div>
         </div>
       </div>

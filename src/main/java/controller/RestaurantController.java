@@ -1,6 +1,7 @@
 package controller;
 
 import java.sql.SQLException;
+import java.util.Base64;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -45,12 +46,12 @@ public class RestaurantController implements Controller {
 			status="success";
 			path="select";
 		}else if(url.equals("/restaurant/detail")) {
-			String m_id=request.getParameter("m_id");
+			String r_id=request.getParameter("r_id");
 			
 			RestaurantDAO dao = new RestaurantDAO();
 			String data=null;
 			try {
-				RestaurantDTO restaurant = dao.selectOne(m_id);
+				RestaurantDTO restaurant = dao.selectOne(r_id);
 				data = restaurant!=null?restaurant.toString():null;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -72,6 +73,12 @@ public class RestaurantController implements Controller {
 			String img5=request.getParameter("img5")!=null?request.getParameter("img5"):null;
 			double loc_x=request.getParameter("loc_x")!=null?Double.parseDouble(request.getParameter("img5")):0;
 			double loc_y=request.getParameter("loc_y")!=null?Double.parseDouble(request.getParameter("loc_y")):0;
+			
+			String auth_token = request.getHeader("auth_token");
+			if(auth_token!=null) {
+				String token_data = new String(Base64.getDecoder().decode(auth_token));
+				m_id = token_data.split(",")[0];
+			}
 			
 			RestaurantDAO dao = new RestaurantDAO();
 			int resultCode = 0;
@@ -99,10 +106,31 @@ public class RestaurantController implements Controller {
 			double loc_x=request.getParameter("loc_x")!=null?Double.parseDouble(request.getParameter("img5")):0;
 			double loc_y=request.getParameter("loc_y")!=null?Double.parseDouble(request.getParameter("loc_y")):0;
 			
+			String auth_token = request.getHeader("auth_token");
+			if(auth_token!=null) {
+				String token_data = new String(Base64.getDecoder().decode(auth_token));
+				m_id = token_data.split(",")[0];
+			}
+			
 			RestaurantDAO dao = new RestaurantDAO();
 			int resultCode = 0;
 			try {
 				resultCode = dao.updateOne(r_id, m_id,name,addr,content,img1,img2,img3,img4,img5,loc_x,loc_y);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			request.setAttribute("resultCode", resultCode);
+			status="success";
+			path="update";
+		}else if(url.equals("/restaurant/remove")) {
+			int r_id=request.getParameter("r_id")!=null?Integer.parseInt(request.getParameter("r_id")):null;
+			
+			RestaurantDAO dao = new RestaurantDAO();
+			int resultCode = 0;
+			try {
+				resultCode = dao.removeOne(r_id);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -1,39 +1,39 @@
-.loginContainer {
+.joinContainer {
   border: 1px solid var(--border-line-color);
   width: 400px;
-  height: 350px;
+  height: 500px;
   margin: 0 auto;
   margin-top: 100px;
   position: relative;
 }
-.loginContainer > div:first-child {
+.joinContainer > div:first-child {
   margin-top: 50px;
 }
-.loginContainer > div {
+.joinContainer > div {
   text-align: center;
   margin: 15px 0px;
 }
-.loginContainer > div:last-child {
+.joinContainer > div:last-child {
   width: 100%;
   position: absolute;
   bottom: 0px;
   left: 50%;
   transform: translate(-50%, -20px);
 }
-.loginContainer input,
+.joinContainer input,
 button {
   width: 80%;
   height: 40px;
 }
-.loginContainer input {
+.joinContainer input {
   font-size: 18px;
 }
-.loginContainer button {
+.joinContainer button {
   background-color: var(--theme-color);
   border: 1px solid var(--border-line-color);
   font-weight: bold;
   margin-top: 10px;
 }
-.loginContainer button:last-child {
+.joinContainer button:last-child {
   background-color: unset;
 }

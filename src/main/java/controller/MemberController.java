@@ -75,6 +75,12 @@ public class MemberController implements Controller {
 		}else if(url.equals("/member/detail")) {
 			String m_id=request.getParameter("m_id");
 			
+			String auth_token = request.getHeader("auth_token");
+			if(auth_token!=null) {
+				String token_data = new String(Base64.getDecoder().decode(auth_token));
+				m_id = token_data.split(",")[0];
+			}
+			
 			MemberDAO dao = new MemberDAO();
 			String data=null;
 			try {

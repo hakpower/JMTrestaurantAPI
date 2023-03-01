@@ -75,7 +75,7 @@ public class RestaurantDAO {
 		
 		objs.add(r_id);
 		
-		String sql="select * from restaurant where r_id=?";
+		String sql="select *, 1=1 as num from restaurant where r_id=?";
 		list = mysqlTemplate.selectQuery(sql, objs);
 		
 		if(list.size()>0) {
@@ -127,6 +127,18 @@ public class RestaurantDAO {
 		String sql="update restaurant set m_id=?, name=?, addr=?, content=?, img1=?, img2=?, img3=?, img4=?, img5=?, loc_x=?, loc_y=?, reg_date=now() where r_id=?";
 		result = mysqlTemplate.updateQuery(sql,objs);
 
+		return result;
+	}
+	
+	public int removeOne(int r_id) throws SQLException {
+		int result=0;
+		List<Object> objs = new ArrayList<>();
+		
+		objs.add(r_id);
+		
+		String sql="delete from restaurant where r_id = ?";
+		result = mysqlTemplate.updateQuery(sql,objs);
+		
 		return result;
 	}
 }

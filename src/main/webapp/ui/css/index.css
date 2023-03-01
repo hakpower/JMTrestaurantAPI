@@ -1,0 +1,29 @@
+.homeContainer {
+}
+.homeContainer > .carouselContainer {
+  width: 800px;
+  overflow-x: hidden;
+  margin: 0 auto;
+}
+.homeContainer > .carouselContainer > .carousel {
+  width: 4050px;
+}
+.homeContainer > .carouselContainer > .carousel > .carouselItem {
+  display: inline;
+  position: relative;
+  left: -1608px;
+}
+.homeContainer > .carouselContainer > .carousel > .carouselItem > img {
+  opacity: 1;
+}
+.homeContainer > .carouselButtonContainer {
+  text-align: center;
+  margin-top: 10px;
+}
+.homeContainer > .carouselButtonContainer > span {
+  margin: 25px;
+  cursor: pointer;
+  font-weight: 500;
+  font-family: math;
+  font-style: italic;
+}

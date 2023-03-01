@@ -37,7 +37,7 @@ header
 #header > div {
   width: 100%;
   height: 100%;
-  background-image: url("../../imgs/logo.png");
+  background-image: url("/JMTrestaurantAPI/imgs/logo.png");
   background-size: 400px;
   background-repeat: no-repeat;
   background-position: 50%;
